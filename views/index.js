@@ -28,5 +28,5 @@ app.get('/:page', (req, res) => {
 
 //start web server
 app.listen(port, () => {
-    console.log(`server is running on port ${port}`);
+    console.log(`The server is running on port ${port}`);
 })
