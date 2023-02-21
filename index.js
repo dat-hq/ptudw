@@ -18,6 +18,12 @@ app.set('view engine', 'hbs');
 //app.set('views', './views/partials')
 
 //routes
+app.get('/createTables',(req,res)=>{
+    let models = require('./models');
+    models.sequelize.sync().then (()=>{
+        res.send('A new table has been created')
+    })
+});
 app.get('/', (req, res) => {
     res.render('index');
 });
