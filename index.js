@@ -7,8 +7,8 @@ app.use(express.static( 'public'));
 
 //express-handlebars
 app.engine('hbs', expressHandlebars.engine({
-    layoutsDir: __dirname + '/layouts',
-    partialsDir: __dirname + '/partials',
+    layoutsDir: __dirname + '/views/layouts',
+    partialsDir: __dirname + '/views/partials',
     extname: 'hbs',
     defaultLayout: 'layout'
 }));
@@ -34,5 +34,5 @@ app.get('/:page', (req, res) => {
 
 //start web server
 app.listen(port, () => {
-    console.log(`The server is running on port ${port}`);
+    console.log(`server is running on port ${port}`);
 })
