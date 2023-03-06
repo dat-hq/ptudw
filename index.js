@@ -18,20 +18,16 @@ app.set('view engine', 'hbs');
 //app.set('views', './views/partials')
 
 // routes 
-app.use('/', require('./routes/indexRouter'))
-// app.get('/createTables',(req,res)=>{
-//     let models = require('./models');
-//     models.sequelize.sync().then (()=>{
-//         res.send('A new table has been created')
-//     })
-// });
-// app.get('/', (req, res) => {
-//     res.render('index');
-// });
+app.use('/', require('./routes/indexRouter'));
 
-// app.get('/:page', (req, res) => {
-//     res.render(req.params.page);
-// })
+app.use((req, res, next) => {
+    res.status(404).render('error', { message: 'File not Found!' });
+});
+
+app.use((error, req, res, next) => {
+    console.error(error);
+    res.status(500).render('error', { message: 'Internal Server Error' });
+});
 
 //start web server
 app.listen(port, () => {
