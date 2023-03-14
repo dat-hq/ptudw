@@ -2,7 +2,7 @@ const express = require('express');
 const app = express();
 const port = process.env.PORT || 5000;
 const expressHandlebars = require('express-handlebars');
-const {createStarList} = require('./controllers/handlebarsHelper');
+const { createStarList } = require('./controllers/handlebarsHelper');
 
 
 app.use(express.static('public'));
