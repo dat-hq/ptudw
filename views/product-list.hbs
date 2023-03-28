@@ -20,18 +20,16 @@
             <div class="row">
               <div class="col-md-8">
                 <div class="product-search">
-                  <input type="email" value="Search" />
-                  <button><i class="fa fa-search"></i></button>
+                  <form action="/products" method="GET">
+                    <input type="text" placeholder="Search" name="keyword" required>
+                    <button><i class="fa fa-search"></i></button>
+                  </form>
                 </div>
               </div>
               <div class="col-md-4">
                 <div class="product-short">
                   <div class="dropdown">
-                    <a
-                      href="#"
-                      class="dropdown-toggle"
-                      data-toggle="dropdown"
-                    >Product short by</a>
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Product short by</a>
                     <div class="dropdown-menu dropdown-menu-right">
                       <a href="#" class="dropdown-item">Newest</a>
                       <a href="#" class="dropdown-item">Popular</a>
@@ -43,7 +41,7 @@
           </div>
           {{#each products}}
           <div class="col-lg-4">
-              {{> product}}
+            {{> product}}
           </div>
           {{/each}}
         </div>
@@ -54,10 +52,7 @@
               <li class="page-item disabled">
                 <a class="page-link" href="#" tabindex="-1">Previous</a>
               </li>
-              <li class="page-item active"><a
-                  class="page-link"
-                  href="#"
-                >1</a></li>
+              <li class="page-item active"><a class="page-link" href="#">1</a></li>
               <li class="page-item"><a class="page-link" href="#">2</a></li>
               <li class="page-item"><a class="page-link" href="#">3</a></li>
               <li class="page-item">
