@@ -29,8 +29,8 @@ controller.show = async (req, res) => {
     let brand = isNaN(req.query.brand) ? 0 : parseInt(req.query.brand);
     let tag = isNaN(req.query.tag) ? 0 : parseInt(req.query.tag);
     let keyword = req.query.keyword || '';
-    let sort = ['price', 'newest', 'popular'].includes(req.query.sort) ? req.query.sort: 'price';
-    let page = isNaN(req.query.page) ? 1 : Math.max(1,parseInt(req.query.page));
+    let sort = ['price', 'newest', 'popular'].includes(req.query.sort) ? req.query.sort : 'price';
+    let page = isNaN(req.query.page) ? 1 : Math.max(1, parseInt(req.query.page));
 
     let options = {
         attributes: ['id', 'name', 'imagePath', 'stars', 'price', 'oldPrice'],
@@ -66,20 +66,20 @@ controller.show = async (req, res) => {
 
     res.locals.sort = sort;
     res.locals.originalUrl = removeParam('sort', req.originalUrl);
-    if(Object.keys(req.query).length==0){
-        res.locals.originalUrl= res.locals.originalUrl + "?";
+    if (Object.keys(req.query).length == 0) {
+        res.locals.originalUrl = res.locals.originalUrl + "?";
     }
     const limit = 6;
     //[0->5], [6->11], ...
     options.limit = limit;
-    options.offset = limit *(page - 1);
+    options.offset = limit * (page - 1);
 
-    let {rows, count} = await models.Product.findAndCountAll(options);
-    res.locals.pagination ={
-        page: page, 
+    let { rows, count } = await models.Product.findAndCountAll(options);
+    res.locals.pagination = {
+        page: page,
         limit: limit,
-        totalRows: count, 
-        queryParams: req.query 
+        totalRows: count,
+        queryParams: req.query
     }
 
     //let products = await models.Product.findAll(options);
@@ -105,9 +105,28 @@ controller.showDetails = async (req, res) => {
                 model: models.User,
                 attributes: ['firstName', 'lastName']
             }]
+        }, {
+            model: models.Tag,
+            attributes: ['id']
         }]
     });
     res.locals.product = product;
+
+    let tagIds = [];
+    product.Tags.forEach(tag => tagIds.push(tag.id));
+
+    let relatedProducts = await models.Product.findAll({
+        attributes: ['id', 'name', 'imagePath', 'oldPrice', 'price'],
+        include: [{
+            model: models.Tag,
+            attributes: ['id'],
+            where: {
+                id: { [Op.in]: tagIds }
+            }
+        }],
+        limit: 10
+    })
+    res.locals.relatedProducts = relatedProducts;
     res.render('product-detail');
 }
 
