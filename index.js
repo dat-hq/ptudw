@@ -30,7 +30,7 @@ app.set('view engine', 'hbs');
 
 //cau hinh doc du lieu post tu body
 app.use(express.json());
-app.use(express.urlencoded({extended: false}));
+app.use(express.urlencoded({ extended: false }));
 
 //cau hinh su dung session
 app.use(session({
@@ -44,11 +44,11 @@ app.use(session({
 }));
 
 //middleware khoi tao gio hang
-app.use((req, res, next)=>{
+app.use((req, res, next) => {
     let Cart = require('./controllers/cart');
-    req.session.cart = new Cart (req.session.cart ? req.session.cart: {});
+    req.session.cart = new Cart(req.session.cart ? req.session.cart : {});
     res.locals.quantity = req.session.cart.quantity;
-
+    
     next();
 });
 // routes 

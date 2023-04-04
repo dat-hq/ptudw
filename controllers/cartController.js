@@ -1,7 +1,8 @@
 'use strict';
 
 let controller = {};
-let models = require('../models')
+let models = require('../models');
+
 controller.add = async (req, res) => {
     let id = isNaN(req.body.id) ? 0 : parseInt(req.body.id);
     let quantity = isNaN(req.body.quantity) ? 0 : parseInt(req.body.quantity);
@@ -10,7 +11,11 @@ controller.add = async (req, res) => {
     if (product) {
         req.session.cart.add(product, quantity);
     }
-    return res.json({ quantity: req.session.quantity });
+    return res.json({ quantity: req.session.cart.quantity });
 }
 
+controller.show = (req, res) => {
+    res.locals.cart = req.session.cart.getCart();
+    return res.render('cart');
+}
 module.exports = controller;
