@@ -32,21 +32,14 @@ controller.placeorders = async (req, res) => {
         })
     }
     let cart = req.session.cart;
-    cart.shippingAddress = `${address.firstName} ${address.lastName}, 
-    Email: ${address.email},
-    Mobile: ${address.mobile},
-    Address: ${address.address},
-    ${address.city},
-    ${address.country},
-    ${address.state},
-    ${address.zipCode}`;
+    cart.shippingAddress = cart.shippingAddress = `${address.firstName} ${address.lastName}, Email: ${address.email}, Mobile: ${address.mobile}, Address: ${address.address}, ${address.city}, ${address.country}, ${address.state}, ${address.zipCode}`;
     cart.paymentMethod = req.body.payment;
 
     switch (req.body.payment) {
         case 'PAYPAL':
             saveOrders(req, res, 'PAID');
             break;
-        case 'CODE':
+        case 'COD':
             saveOrders(req, res, 'UNPAID');
             break;
     }
@@ -63,7 +56,7 @@ async function saveOrders(req, res, status) {
     let orderDetails = [];
     items.forEach(items => {
         orderDetails.push({
-            oderId: order.id,
+            orderId: order.id,
             productId: items.product.id,
             price: items.product.price,
             quantity: items.quantity,
