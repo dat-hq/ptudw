@@ -24,7 +24,6 @@ router.post('/placeorders', [
             return res.render('error', { message });
         }
         next();
-    },
-    controller.placeorders
+    }, controller.placeorders
 ]);
 module.exports = router;
