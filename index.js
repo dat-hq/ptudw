@@ -5,6 +5,16 @@ const expressHandlebars = require('express-handlebars');
 const { createStarList } = require('./controllers/handlebarsHelper');
 const { createPagination } = require('express-handlebars-paginate');
 const session = require('express-session');
+const redis = require('connect-redis').default;
+const { createClient } = require('redis');
+const { default: RedisStore } = require('connect-redis');
+const redisClient = createClient({
+    /*local host redis 
+    url: 'rediss://red-ch4kn1e4dad97s4bb7dg:w9k24vpUPN8aPerUP7RjWDJDiAtCtez5@singapore-redis.render.com:6379'*/
+    //web service host redis url
+    url: 'redis://red-ch4kn1e4dad97s4bb7dg:6379'
+});
+redisClient.connect().catch(console.error);
 
 //Cau hinh public static folder
 app.use(express.static('public'));
@@ -35,6 +45,7 @@ app.use(express.urlencoded({ extended: false }));
 //cau hinh su dung session
 app.use(session({
     secret: 'S3cret',
+    store: new RedisStore({ client: redisClient }),
     resave: false,
     saveUninitialized: false,
     cookie: {
